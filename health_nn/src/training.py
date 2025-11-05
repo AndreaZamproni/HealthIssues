@@ -1,4 +1,4 @@
-rom typing import Tuple, Dict, List
+from typing import Tuple, Dict, List
 import numpy as np
 import torch
 from torch import nn
