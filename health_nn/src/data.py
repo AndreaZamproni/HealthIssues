@@ -9,14 +9,14 @@ from torch.utils.data import TensorDataset
 
 def load_dataframe(csv_path: Path) -> pd.DataFrame:
 if not csv_path.exists():
-raise FileNotFoundError(f"CSV non trovato: {csv_path}")
+    raise FileNotFoundError(f"CSV non trovato: {csv_path}")
 return pd.read_csv(csv_path)
 
 
 
 
 def train_val_test_numpy(df: pd.DataFrame, target_col: str, test_size: float, seed: int):
-from sklearn.model_selection import train_test_split
+   from sklearn.model_selection import train_test_split
 
 
 y = df[target_col].values.astype(np.int64)
