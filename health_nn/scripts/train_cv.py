@@ -51,13 +51,13 @@ def main():
 
 
     losses, metrics, scores = k_shuffle_split_cv(
-    X=X, y=y,
-    epochs=args.epochs, criterion=crit, scaler=scaler, device=device,
-    k=args.k, test_size=args.test_size, batch_size=args.batch_size,
-    hidden_layers=args.hidden_layers, hidden_size=args.hidden_size,
-    learning_rate=args.lr, dropout_rate=args.dropout,
-    l1_lambda=args.l1, l2_lambda=args.l2, patience=args.patience,
-    verbose=10, seed=args.seed, out_dir=args.out
+        X=X, y=y,
+        epochs=args.epochs, criterion=crit, scaler=scaler, device=device,
+        k=args.k, test_size=args.test_size, batch_size=args.batch_size,
+        hidden_layers=args.hidden_layers, hidden_size=args.hidden_size,
+        learning_rate=args.lr, dropout_rate=args.dropout,
+        l1_lambda=args.l1, l2_lambda=args.l2, patience=args.patience,
+        verbose=10, seed=args.seed, out_dir=args.out
     )
     print(scores)
 
