@@ -50,32 +50,32 @@ def main():
         X_te_n = norm(X_te)
 
 
-    te_ds = torch.utils.data.TensorDataset(torch.from_numpy(X_te_n), torch.from_numpy(y_te))
-    te_loader = make_loader(te_ds, batch_size=args.batch_size, shuffle=False, drop_last=False)
+        te_ds = torch.utils.data.TensorDataset(torch.from_numpy(X_te_n), torch.from_numpy(y_te))
+        te_loader = make_loader(te_ds, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
 
-    model = FeedForwardNet(in_features=X.shape[1], hidden_layers=args.hidden_layers, hidden_size=args.hidden_size, dropout_rate=args.dropout, num_classes=len(np.unique(y))).to(device)
-    ckpt = args.ckpt_dir / f"split_{split}_model.pt"
-    model.load_state_dict(torch.load(ckpt, map_location=device))
-    model.eval()
+        model = FeedForwardNet(in_features=X.shape[1], hidden_layers=args.hidden_layers, hidden_size=args.hidden_size, dropout_rate=args.dropout, num_classes=len(np.unique(y))).to(device)
+        ckpt = args.ckpt_dir / f"split_{split}_model.pt"
+        model.load_state_dict(torch.load(ckpt, map_location=device))
+        model.eval()
 
 
-    preds, tgts = [], []
-    with torch.no_grad():
-        for xb, yb in te_loader:
-            xb = xb.to(device)
-            logits = model(xb)
-            preds.append(logits.argmax(1).cpu().numpy())
-            tgts.append(yb.numpy())
-            preds = np.concatenate(preds); tgts = np.concatenate(tgts)
+        preds, tgts = [], []
+        with torch.no_grad():
+            for xb, yb in te_loader:
+                xb = xb.to(device)
+                logits = model(xb)
+                preds.append(logits.argmax(1).cpu().numpy())
+                tgts.append(yb.numpy())
+        preds = np.concatenate(preds); tgts = np.concatenate(tgts)
 
 
-    test_acc.append(accuracy_score(tgts, preds))
-    test_prec.append(precision_score(tgts, preds, average='weighted'))
-    test_rec.append(recall_score(tgts, preds, average='weighted'))
-    test_f1.append(f1_score(tgts, preds, average='weighted'))
-    all_tgts.extend(tgts); all_preds.extend(preds)
-    print(f"Split {split+1}: F1={test_f1[-1]:.4f}")
+        test_acc.append(accuracy_score(tgts, preds))
+        test_prec.append(precision_score(tgts, preds, average='weighted'))
+        test_rec.append(recall_score(tgts, preds, average='weighted'))
+        test_f1.append(f1_score(tgts, preds, average='weighted'))
+        all_tgts.extend(tgts); all_preds.extend(preds)
+        print(f"Split {split+1}: F1={test_f1[-1]:.4f}")
 
 
     print("\nAverages on test:")
